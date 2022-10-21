@@ -13,7 +13,7 @@ public class Tarro {
 	   private Rectangle bucket;
 	   private Texture bucketImage;
 	   private Sound sonidoHerido;
-	   private int vidas = 3;
+	   private int vidas = 10;
 	   private int puntos = 0;
 	   private int velx = 400;
 	   private boolean herido = false;
