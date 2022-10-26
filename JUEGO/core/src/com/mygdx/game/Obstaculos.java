@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.Arrays;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -7,39 +9,56 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Lluvia {
+public class Obstaculos {
 	private Array<Rectangle> rainDropsPos;
 	private Array<Integer> rainDropsType;
     private long lastDropTime;
-    private Texture gotaBuena;
+    private Texture copa;
     private Texture gotaMala;
     private Sound dropSound;
-    private Music rainMusic;
+    private Music musicaFondo;
 	   
-	public Lluvia(Texture gotaBuena, Texture gotaMala, Sound ss, Music mm) {
-		rainMusic = mm;
-		dropSound = ss;
-		this.gotaBuena = gotaBuena;
-		this.gotaMala = gotaMala;
-	}
-	
-	public void crear() {
+	@SuppressWarnings("unchecked")
+	public Obstaculos() {
+		musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("sounds/cancionCars.mp3"));
+		dropSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cuchau.mp3"));
+		this.copa = new Texture(Gdx.files.internal("images/pistonCup.png"));
+		this.gotaMala = new Texture(Gdx.files.internal("images/francesco.png"));
+		
 		rainDropsPos = new Array<Rectangle>();
 		rainDropsType = new Array<Integer>();
 		crearGotaDeLluvia();
-	      // start the playback of the background music immediately
-	      rainMusic.setLooping(true);
-	      rainMusic.setVolume(0.05f);
-	      rainMusic.play();
+	     // start the playback of the background music immediately
+	    musicaFondo.setLooping(true);
+	    musicaFondo.setVolume(0.05f);
+	    musicaFondo.play();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Obstaculos(Music musicaFondo) {
+		this.musicaFondo = musicaFondo;
+		dropSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cuchau.mp3"));
+		this.copa = new Texture(Gdx.files.internal("images/pistonCup.png"));
+		this.gotaMala = new Texture(Gdx.files.internal("images/francesco.png"));
+		
+		rainDropsPos = new Array<Rectangle>();
+		rainDropsType = new Array<Integer>();
+		crearGotaDeLluvia();
+	     // start the playback of the background music immediately
+	    musicaFondo.setLooping(true);
+	    musicaFondo.setVolume(0.05f);
+	    musicaFondo.play();
+	}
+
 	private void crearGotaDeLluvia() {
+		  int posiciones [] = {75,150,225,300};
 	      Rectangle raindrop = new Rectangle();
 	      raindrop.x = 800;
-	      raindrop.y = MathUtils.random(20,300);
+	      raindrop.y = posiciones[MathUtils.random(3)];
 	      raindrop.width = 70;
 	      raindrop.height = 40;
 	      rainDropsPos.add(raindrop);
@@ -51,7 +70,7 @@ public class Lluvia {
 	      lastDropTime = TimeUtils.nanoTime();  //buena
 	   }
 	
-   public boolean actualizarMovimiento(Tarro tarro) { 
+   public boolean actualizarMovimiento(Carro tarro) { 
 	   // generar gotas de lluvia 
 	   if(TimeUtils.nanoTime() - lastDropTime > 300000000) crearGotaDeLluvia();
 	  
@@ -90,18 +109,18 @@ public class Lluvia {
 		  if(rainDropsType.get(i)==1) // gota dañina
 	         batch.draw(gotaMala, raindrop.x, raindrop.y, 70, 40); 
 		  else
-			 batch.draw(gotaBuena, raindrop.x, raindrop.y, 70, 40); 
+			 batch.draw(copa, raindrop.x, raindrop.y, 70, 40); 
 	   }
    }
    public void destruir() {
       dropSound.dispose();
-      rainMusic.dispose();
+      musicaFondo.dispose();
    }
    public void pausar() {
-	  rainMusic.stop();
+	  musicaFondo.stop();
    }
    public void continuar() {
-	  rainMusic.play();
+	  musicaFondo.play();
    }
    
 }
