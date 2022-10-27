@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 public class MainMenuScreen implements Screen {
@@ -61,13 +63,19 @@ public class MainMenuScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public void pause() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void pause() {
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -84,10 +92,6 @@ public class MainMenuScreen implements Screen {
 		
 	}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

@@ -2,36 +2,30 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
-
-public class Carro {
-	   private Sprite spr;
+public class Hudson implements Movible{
+	private Sprite spr;
 	   private Texture imagenRayo;
-	   private Sound sonidoHerido;
 	   private int grados;
-	   private int vidas = 3;
+	   private int vidas = 5;
 	   private int puntos = 0;
-	   private int velx = 400;
+	   private int velx = 200;
 	   private boolean herido = false;
 	   private int tiempoHeridoMax = 50;
 	   private int tiempoHerido;
 	   
 	   
-	   public Carro() {  
-		   imagenRayo = new Texture(Gdx.files.internal("images/rayo.png"));
-		   sonidoHerido = Gdx.audio.newSound(Gdx.files.internal("sounds/choque.mp3"));
-		   spr = new Sprite(imagenRayo);
-		   
-		   spr.setRegionWidth(imagenRayo.getWidth());
-		   spr.setRegionHeight(imagenRayo.getHeight());
-		   spr.setCenter(64, 20);
-	   }
+	   @Override
+	   	public void crearCarro() {
+	   		imagenRayo = new Texture(Gdx.files.internal("images/hudson.png"));
+			spr = new Sprite(imagenRayo);
+			spr.setCenter(64, 185);
+	   	}
+	   
 	   
 		public int getVidas() {
 			return vidas;
@@ -52,7 +46,6 @@ public class Carro {
 		  herido = true;
 		  tiempoHerido = tiempoHeridoMax;
 		  grados = 10;
-		  sonidoHerido.play();
 	   }
 	   public void dibujar(SpriteBatch batch) {
 		 if (!herido) {
@@ -69,7 +62,7 @@ public class Carro {
 		 }
 	   } 
 	     
-	   public void actualizarPosicion() { 
+	   	public void actualizarPorTeclado() { 
 		   // movimiento desde mouse/touch
 		   /*if(Gdx.input.isTouched()) {
 			      Vector3 touchPos = new Vector3();
@@ -81,17 +74,16 @@ public class Carro {
 		   if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) spr.setY(spr.getY() - velx * Gdx.graphics.getDeltaTime());
 		   if(Gdx.input.isKeyPressed(Input.Keys.UP)) spr.setY(spr.getY() + velx * Gdx.graphics.getDeltaTime());
 		   // que no se salga de los bordes izq y der
-		   if(spr.getY() < 20) spr.setY(20);
-		   if(spr.getY() > 300) spr.setY(300);
+		   if(spr.getY() < 10) spr.setY(10);
+		   if(spr.getY() > 365) spr.setY(365);
 	   }
 	    
 
-	public void destruir() {
+	   	public void destruir() {
 		    imagenRayo.dispose();
 	   }
 	
-   public boolean estaHerido() {
-	   return herido;
-   }
-	   
+	   	public boolean estaHerido() {
+	   		return herido;
+	   	}
 }

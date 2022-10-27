@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
@@ -15,9 +17,10 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
 	private SpriteBatch batch;	   
 	private BitmapFont font;
-	private Carro auto;
+	private Movible auto;
 	private Obstaculos obs;
 	private Texture fondo;
+	private int tipo;
 
 	   
 	//boolean activo = true;
@@ -27,13 +30,22 @@ public class GameScreen implements Screen {
         this.batch = game.getBatch();
         this.font = game.getFont();
 
-         fondo = new Texture(Gdx.files.internal("images/pista.jpg"));
+         fondo = new Texture(Gdx.files.internal("images/pista.png"));
 	      // camera
 	     camera = new OrthographicCamera();
 	     camera.setToOrtho(false, 800, 480);
 	     batch = new SpriteBatch();
-	      // creacion del carro
-	     auto = new Carro();      
+	     
+	     tipo = MathUtils.random(1,2);
+	     
+	     if (tipo == 1) {
+	    	 auto = new Rasho();
+	    	 auto.crearCarro();
+	     }
+	     else {
+	    	 auto = new Hudson();
+	    	 auto.crearCarro();
+	     }
 	      // creacion de la lluvia
 	     obs = new Obstaculos();
 	}
@@ -43,14 +55,20 @@ public class GameScreen implements Screen {
         this.batch = game.getBatch();
         this.font = game.getFont();
          
-        fondo = new Texture(Gdx.files.internal("images/pista.jpg")); 
+        fondo = new Texture(Gdx.files.internal("images/pista.png")); 
 	      // camera
 	    camera = new OrthographicCamera();
 	    camera.setToOrtho(false, 800, 480);
 	    batch = new SpriteBatch();
-	      // creacion del tarro
-	    auto = new Carro();
-	    
+
+	     if (tipo == 1) {
+	    	 auto = new Rasho();
+	    	 auto.crearCarro();
+	     }
+	     else {
+	    	 auto = new Hudson();
+	    	 auto.crearCarro();
+	     }
 	      // creacion de la lluvia
 	    obs = new Obstaculos(musicaFondo);
 	}
@@ -66,13 +84,13 @@ public class GameScreen implements Screen {
 		batch.begin();
 		batch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//dibujar textos
-		font.draw(batch, "Gotas totales: " + auto.getPuntos(), 5, 475);
-		font.draw(batch, "Vidas : " + auto.getVidas(), 670, 475);
-		font.draw(batch, "HighScore : " + game.getHigherScore(), camera.viewportWidth/2-50, 475);
+		font.draw(batch, String.valueOf(auto.getPuntos()), 740, 440);
+		font.draw(batch, String.valueOf(auto.getVidas()), 260, 450);
+		font.draw(batch, String.valueOf(game.getHigherScore()), 740, 475);
 		
 		if (!auto.estaHerido()) {
 			// movimiento del tarro desde teclado
-	        auto.actualizarPosicion();        
+	        auto.actualizarPorTeclado();        
 			// caida de la lluvia 
 	       if (!obs.actualizarMovimiento(auto)) {
 	    	  //actualizar HigherScore
@@ -85,13 +103,9 @@ public class GameScreen implements Screen {
 		}
 		
 		auto.dibujar(batch);
-		obs.actualizarDibujoLluvia(batch);
+		obs.actualizarDibujo(batch);
 		
 		batch.end();
-	}
-
-	@Override
-	public void resize(int width, int height) {
 	}
 
 	@Override
@@ -100,10 +114,6 @@ public class GameScreen implements Screen {
 	  obs.continuar();
 	}
 
-	@Override
-	public void hide() {
-
-	}
 
 	@Override
 	public void pause() {
@@ -112,14 +122,27 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
-	public void resume() {
-
-	}
-
-	@Override
 	public void dispose() {
       auto.destruir();
       obs.destruir();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

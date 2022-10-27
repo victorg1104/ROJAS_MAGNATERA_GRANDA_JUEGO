@@ -17,7 +17,7 @@ public class GameOverScreen implements Screen {
 	private BitmapFont font;
 	private OrthographicCamera camera;
 	private Texture fondo;
-	private Sound musicaFondo;
+	private Music musicaFondo;
 
 	public GameOverScreen(final GameRasho game) {
 		this.game = game;
@@ -26,7 +26,6 @@ public class GameOverScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 		fondo = new Texture(Gdx.files.internal("images/imagenGameOver.png"));
-		musicaFondo = Gdx.audio.newSound(Gdx.files.internal("sounds/francesco.mp3"));
 	}
 
 	@Override
@@ -37,13 +36,14 @@ public class GameOverScreen implements Screen {
 
 		batch.begin();
 		batch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		font.draw(batch, "Presiona cualquier tecla para jugar de nuevo", 140, 50);
+		font.draw(batch, "Presiona enter para jugar de nuevo", 140, 50);
 		
-		musicaFondo.play();
+		
+		//musicaFondo.play();
 		
 		batch.end();
 
-		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 			game.setScreen(new GameScreen(game));
 			dispose();
 		}
@@ -56,13 +56,19 @@ public class GameOverScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public void pause() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void pause() {
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -78,11 +84,4 @@ public class GameOverScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
