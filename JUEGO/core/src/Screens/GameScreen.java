@@ -27,55 +27,26 @@ public class GameScreen implements Screen {
 	private AutoProtagonista auto;
 	private DirectorObjetos obs;
 	private Fondo fondo;
-	private int tipo;
 
-	//Constructor para los atributos de clase, recibe por parámetro solo la instancia GameRasho
-	public GameScreen(final GameRasho game) {
-		this.game = game;
-        this.batch = game.getBatch();
-        
-        fondo = Fondo.crearFondo("images/pista.png", game.getFont()); //Se crea fondo personalizado para la Screen
-        
-	     camera = new OrthographicCamera();
-	     camera.setToOrtho(false, 800, 480);
-	     batch = new SpriteBatch();
-	     
-	     tipo = MathUtils.random(1,2);
-	     
-	     //Creación de personajes principales
-	     if (tipo == 1) {
-	    	 auto = new Rasho();
-	    	 auto.crearCarro();
-	     }
-	     else {
-	    	 auto = new Hudson();
-	    	 auto.crearCarro();
-	     }
-	      // Creación del director de creación de objetos
-	     obs = new DirectorObjetos();
-	}
-	
 	//Constructor para los atributos de clase, recibe por parámetro la instancia GameRasho y musicaFondo, en caso que el juego comience desde la pantalla de inicio 
-	public GameScreen(final GameRasho game, MusicaFondo musicaFondo) {
+	public GameScreen(final GameRasho game, MusicaFondo musicaFondo, int tipo) {
 		this.game = game;
         this.batch = game.getBatch();
-         
+
         fondo = Fondo.crearFondo("images/pista.png", game.getFont());
-        
+
 	    camera = new OrthographicCamera();
 	    camera.setToOrtho(false, 800, 480);
 	    batch = new SpriteBatch();
 	    
-	    tipo = MathUtils.random(1,2);
-	    
 	  //Creación de personajes principales
 	    if (tipo == 1) {
 	    	auto = new Rasho();
-	    	auto.crearCarro();
+	    	auto.crearCarro(tipo);
 	    }
 	    else {
 	    	auto = new Hudson();
-	    	auto.crearCarro();
+	    	auto.crearCarro(tipo);
 	    }
 	 // Creación del director de creación de objetos
 	    obs = new DirectorObjetos(musicaFondo);

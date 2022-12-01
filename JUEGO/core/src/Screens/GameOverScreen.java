@@ -44,9 +44,9 @@ public class GameOverScreen implements Screen {
 		
 		batch.end();
 
-		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) { //En caso de que se presione la tecla Enter, se comienza de nuevo el juego
+		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) { //En caso de que se presione la tecla Enter, se manda de nuevo a selección de personaje
 			dispose();
-			game.setScreen(new GameScreen(game));
+			game.setScreen(new SeleccionPersonajeScreen(game));
 		}
 	}
 

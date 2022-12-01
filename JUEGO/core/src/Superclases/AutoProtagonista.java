@@ -8,29 +8,34 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.DirectorObjetos;
+import com.mygdx.game.Hudson;
+import com.mygdx.game.Rasho;
 
 import Interfaces.Movible;
 import Screens.GameOverScreen;
 
 //Clase abstracta que implementa la interfaz movible, es a su vez la clase que define un Template para las subclases Hudson y Rasho
-public abstract class AutoProtagonista implements Movible{
+public abstract class AutoProtagonista{
 	protected Sprite spr;
 	protected Texture imagen;
 	protected int grados;
-	protected float opacidad;
 	protected int vidas;
 	protected int puntos;
-	protected int velx;
+	protected int tiempoHeridoMax;
+	protected int tipo;
 	protected boolean herido;
 	protected boolean girar;
 	protected boolean parpadear;
-	protected int tiempoHeridoMax;
 	protected float tiempoHerido;
+	protected float opacidad;
+	private Movible movible;
 	
-	public void crearCarro() { //Template Method
+	public abstract void setVidas();
+	public abstract void setSprite();
+		
+	public void crearCarro(int tipo) { //Template Method
 		//Funciones abstractas, dependientes de cada subclase
 		setVidas();
-		setVelx();
 		setSprite();
 		//Funciones comunes, pertenecientes a todas las subclases
 		setPuntos();
@@ -38,12 +43,12 @@ public abstract class AutoProtagonista implements Movible{
 		setGirar();
 		setParpadear();
 		setTiempoHeridoMax();
+		setTipo(tipo);
 	}
-	/*public abstract void crearCarroRapido(); //Setea los atributos para un auto rápido
-	public abstract void crearCarroLento(); //Setea los atributos para un auto lento*/
-	public abstract void setVidas();
-	public abstract void setVelx();
-	public abstract void setSprite();
+
+	public void setTipo(int tipo){
+		this.tipo = tipo;
+	}
 	
 	public void setPuntos() {
 		puntos = 0;
@@ -161,14 +166,10 @@ public abstract class AutoProtagonista implements Movible{
    		return true; //Se retorna true en caso de que el juego no se haya terminado
    	}
 	     
-	@Override
-	public void actualizarPorTeclado() { 
-		   //movimiento desde teclado
-		   if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) spr.setY(spr.getY() - velx * Gdx.graphics.getDeltaTime());
-		   if(Gdx.input.isKeyPressed(Input.Keys.UP)) spr.setY(spr.getY() + velx * Gdx.graphics.getDeltaTime());
-		   // que no se salga de los bordes arriba y abajo
-		   if(spr.getY() < 10) spr.setY(10);
-		   if(spr.getY() > 365) spr.setY(365);
+	public void actualizarPorTeclado() {
+		if (tipo == 1) movible = (Rasho) this;
+		else movible = (Hudson) this;
+		movible.actualizarPorTeclado();	   
 	}
 
 }

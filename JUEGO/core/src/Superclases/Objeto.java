@@ -45,18 +45,22 @@ public abstract class Objeto implements BuilderObjetos{
 		spr.setCenter(posX, posY);	
 	}
 	
+	@Override
 	public void setDaño(int daño) {
 		this.daño = daño;
 	}
 	
+	@Override
 	public void setPremio(int premio) {
 		this.premio = premio;
 	}
 	
+	@Override
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
 	}
 	
+	@Override
 	public void setPosicion(int posY) {
 		posX = 800;
 		this.posY = posY;

@@ -56,7 +56,7 @@ public class MainMenuScreen implements Screen {
 
 		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
 			dispose(); //En caso de que se toque la pantalla con el mouse o se presione alguna tecla, se da inicio al juego
-			game.setScreen(new GameScreen(game, musicaFondo));
+			game.setScreen(new SeleccionPersonajeScreen(game, musicaFondo));
 		}
 	}
 
@@ -94,7 +94,4 @@ public class MainMenuScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
 }
