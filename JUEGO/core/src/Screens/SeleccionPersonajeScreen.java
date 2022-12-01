@@ -26,7 +26,7 @@ public class SeleccionPersonajeScreen implements Screen{
 		this.game = game;
         this.batch = game.getBatch();
         
-        fondo = Fondo.crearFondo("images/FondoSeleccion.png.jpg", game.getFont()); //Crea fondo personalizado
+        fondo = Fondo.crearFondo("images/FondoSeleccion.png", game.getFont()); //Crea fondo personalizado
         
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
@@ -37,7 +37,7 @@ public class SeleccionPersonajeScreen implements Screen{
 		this.game = game;
         this.batch = game.getBatch();
         
-        fondo = Fondo.crearFondo("images/FondoSeleccion.png.jpg", game.getFont()); //Crea fondo personalizado
+        fondo = Fondo.crearFondo("images/FondoSeleccion.png", game.getFont()); //Crea fondo personalizado
         
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);

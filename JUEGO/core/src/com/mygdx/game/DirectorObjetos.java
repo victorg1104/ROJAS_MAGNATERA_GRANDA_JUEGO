@@ -48,7 +48,7 @@ public class DirectorObjetos {
 
 	//Función que crea objetos en posiciones aleatorias
 	private void crearObjeto() {
-		  int posiciones [] = {20,73,146,219,292,365}; /*Arreglo de posiciones posibles de spawn de objetos, 
+		  int posiciones [] = {30,83,156,229,302,375}; /*Arreglo de posiciones posibles de spawn de objetos, 
 		  												para dar mayor orden en pantalla*/
 		  Objeto obj;
 
