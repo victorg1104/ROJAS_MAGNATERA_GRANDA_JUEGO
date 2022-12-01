@@ -1,57 +1,45 @@
-package com.mygdx.game;
+package Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.GameRasho;
 
 
-public class MainMenuScreen implements Screen {
+public class PausaScreen implements Screen {
 
-	final GameRasho game;
-	private SpriteBatch batch;
+	private final GameRasho game;
+	private GameScreen juego;
+	private SpriteBatch batch;	   
 	private BitmapFont font;
 	private OrthographicCamera camera;
-	private Texture fondo;
-	private Music musicaFondo;
 
-	public MainMenuScreen(final GameRasho game) {
+	public PausaScreen (final GameRasho game, GameScreen juego) {
 		this.game = game;
+        this.juego = juego;
         this.batch = game.getBatch();
         this.font = game.getFont();
-        fondo = new Texture(Gdx.files.internal("images/imagenMenu.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
-		musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("sounds/cancionCars.mp3"));
 	}
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0, 0, 0f, 1);
+		ScreenUtils.clear(0, 0, 1.0f, 0.5f);
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-		batch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		font.getData().setScale(2, 2);
-		font.draw(batch, "Presiona cualquier tecla para comenzar!", 140, 50);
-		
-		musicaFondo.setLooping(true);
-		musicaFondo.setVolume(0.05f);
-		musicaFondo.play();
-
+		font.draw(batch, "Juego en Pausa ", 100, 150);
+		font.draw(batch, "Toca en cualquier lado para continuar !!!", 100, 100);
 		batch.end();
 
-		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			game.setScreen(new GameScreen(game, musicaFondo));
+		if (Gdx.input.isTouched()) {
+			game.setScreen(juego);
 			dispose();
 		}
 	}
@@ -93,5 +81,5 @@ public class MainMenuScreen implements Screen {
 	}
 
 
-
 }
+

@@ -1,45 +1,52 @@
-package com.mygdx.game;
+package Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.Fondo;
+import com.mygdx.game.GameRasho;
 
-
-public class PausaScreen implements Screen {
-
+public class GameOverScreen implements Screen {
 	private final GameRasho game;
-	private GameScreen juego;
 	private SpriteBatch batch;	   
-	private BitmapFont font;
 	private OrthographicCamera camera;
+	private Fondo fondo;
 
-	public PausaScreen (final GameRasho game, GameScreen juego) {
+	public GameOverScreen(final GameRasho game) {
 		this.game = game;
-        this.juego = juego;
         this.batch = game.getBatch();
-        this.font = game.getFont();
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
+		
+		fondo = Fondo.crearFondo("images/imagenGameOver.png", game.getFont());
 	}
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0, 0, 1.0f, 0.5f);
-
+		ScreenUtils.clear(0, 0, 0.2f, 1);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-		font.draw(batch, "Juego en Pausa ", 100, 150);
-		font.draw(batch, "Toca en cualquier lado para continuar !!!", 100, 100);
+		batch.draw(fondo.getImagenFondo(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		fondo.getFuente().draw(batch, "Presiona enter para jugar de nuevo", 140, 50);
+		
+		
+		//musicaFondo.play();
+		
 		batch.end();
 
-		if (Gdx.input.isTouched()) {
-			game.setScreen(juego);
+		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 			dispose();
+			game.setScreen(new GameScreen(game));
 		}
 	}
 
@@ -57,8 +64,7 @@ public class PausaScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		fondo.destruir();
 	}
 
 	@Override
@@ -78,7 +84,4 @@ public class PausaScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }
-

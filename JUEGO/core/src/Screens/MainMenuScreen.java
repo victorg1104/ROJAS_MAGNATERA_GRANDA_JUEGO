@@ -1,51 +1,61 @@
-package com.mygdx.game;
+package Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Fondo;
+import com.mygdx.game.GameRasho;
+import com.mygdx.game.MusicaFondo;
 
-public class GameOverScreen implements Screen {
-	private final GameRasho game;
-	private SpriteBatch batch;	   
-	private BitmapFont font;
+
+public class MainMenuScreen implements Screen {
+
+	final GameRasho game;
+	private SpriteBatch batch;
 	private OrthographicCamera camera;
-	private Texture fondo;
-	private Music musicaFondo;
+	private Fondo fondo;
+	private MusicaFondo musicaFondo;
 
-	public GameOverScreen(final GameRasho game) {
+	public MainMenuScreen(final GameRasho game) {
 		this.game = game;
         this.batch = game.getBatch();
-        this.font = game.getFont();
+        
+        fondo = Fondo.crearFondo("images/imagenMenu.png", game.getFont());
+        
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
-		fondo = new Texture(Gdx.files.internal("images/imagenGameOver.png"));
+		musicaFondo = new MusicaFondo();
+		
+		musicaFondo.setArchivoMusica("sounds/cancionCars.mp3");
 	}
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0, 0, 0.2f, 1);
+		ScreenUtils.clear(0, 0, 0f, 1);
+
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-		batch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		font.draw(batch, "Presiona enter para jugar de nuevo", 140, 50);
+		batch.draw(fondo.getImagenFondo(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		fondo.getFuente().getData().setScale(2, 2);
+		fondo.getFuente().draw(batch, "Presiona cualquier tecla para comenzar!", 140, 50);
 		
-		
-		//musicaFondo.play();
-		
+		musicaFondo.iniciarReproduccion();
+
 		batch.end();
 
-		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-			game.setScreen(new GameScreen(game));
+		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
 			dispose();
+			game.setScreen(new GameScreen(game, musicaFondo));
 		}
 	}
 
@@ -63,8 +73,7 @@ public class GameOverScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		fondo.destruir();
 	}
 
 	@Override
@@ -84,4 +93,7 @@ public class GameOverScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 }

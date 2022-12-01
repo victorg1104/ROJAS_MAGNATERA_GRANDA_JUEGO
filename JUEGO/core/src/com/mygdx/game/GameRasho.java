@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import Screens.MainMenuScreen;
+
 	public class GameRasho extends Game {
 
 		private SpriteBatch batch;

@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,26 +11,31 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.GameRasho;
+import com.mygdx.game.Hudson;
+import com.mygdx.game.MusicaFondo;
+import com.mygdx.game.DirectorObjetos;
+import com.mygdx.game.Fondo;
+import com.mygdx.game.Rasho;
+
+import Superclases.AutoProtagonista;
 
 public class GameScreen implements Screen {
 	final GameRasho game;
     private OrthographicCamera camera;
 	private SpriteBatch batch;	   
-	private BitmapFont font;
-	private Movible auto;
-	private Obstaculos obs;
-	private Texture fondo;
-	private int tipo;
-
-	   
+	private AutoProtagonista auto;
+	private DirectorObjetos obs;
+	private Fondo fondo;
+	private int tipo;	   
 	//boolean activo = true;
 
 	public GameScreen(final GameRasho game) {
 		this.game = game;
         this.batch = game.getBatch();
-        this.font = game.getFont();
-
-         fondo = new Texture(Gdx.files.internal("images/pista.png"));
+        
+        fondo = Fondo.crearFondo("images/pista.png", game.getFont());
+        
 	      // camera
 	     camera = new OrthographicCamera();
 	     camera.setToOrtho(false, 800, 480);
@@ -40,37 +45,39 @@ public class GameScreen implements Screen {
 	     
 	     if (tipo == 1) {
 	    	 auto = new Rasho();
-	    	 auto.crearCarro();
+	    	 auto.crearCarroRapido();
 	     }
 	     else {
 	    	 auto = new Hudson();
-	    	 auto.crearCarro();
+	    	 auto.crearCarroLento();
 	     }
 	      // creacion de la lluvia
-	     obs = new Obstaculos();
+	     obs = new DirectorObjetos();
 	}
 	
-	public GameScreen(final GameRasho game, Music musicaFondo) {
+	public GameScreen(final GameRasho game, MusicaFondo musicaFondo) {
 		this.game = game;
         this.batch = game.getBatch();
-        this.font = game.getFont();
          
-        fondo = new Texture(Gdx.files.internal("images/pista.png")); 
+        fondo = Fondo.crearFondo("images/pista.png", game.getFont());
+        
 	      // camera
 	    camera = new OrthographicCamera();
 	    camera.setToOrtho(false, 800, 480);
 	    batch = new SpriteBatch();
+	    
+	    tipo = MathUtils.random(1,2);
 
-	     if (tipo == 1) {
-	    	 auto = new Rasho();
-	    	 auto.crearCarro();
-	     }
-	     else {
-	    	 auto = new Hudson();
-	    	 auto.crearCarro();
-	     }
+	    if (tipo == 1) {
+	    	auto = new Rasho();
+	    	auto.crearCarroRapido();
+	    }
+	    else {
+	    	auto = new Hudson();
+	    	auto.crearCarroLento();
+	    }
 	      // creacion de la lluvia
-	    obs = new Obstaculos(musicaFondo);
+	    obs = new DirectorObjetos(musicaFondo);
 	}
 
 	@Override
@@ -82,11 +89,11 @@ public class GameScreen implements Screen {
 		//actualizar 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(fondo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(fondo.getImagenFondo(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//dibujar textos
-		font.draw(batch, String.valueOf(auto.getPuntos()), 740, 440);
-		font.draw(batch, String.valueOf(auto.getVidas()), 260, 450);
-		font.draw(batch, String.valueOf(game.getHigherScore()), 740, 475);
+		fondo.getFuente().draw(batch, String.valueOf(auto.getPuntos()), 740, 440);
+		fondo.getFuente().draw(batch, String.valueOf(auto.getVidas()), 260, 450);
+		fondo.getFuente().draw(batch, String.valueOf(game.getHigherScore()), 740, 475);
 		
 		if (!auto.estaHerido()) {
 			// movimiento del tarro desde teclado
@@ -97,8 +104,8 @@ public class GameScreen implements Screen {
 	    	  if (game.getHigherScore()<auto.getPuntos())
 	    		  game.setHigherScore(auto.getPuntos());  
 	    	  //ir a la ventana de finde juego y destruir la actual
-	    	  game.setScreen(new GameOverScreen(game));
 	    	  dispose();
+	    	  game.setScreen(new GameOverScreen(game));
 	       }
 		}
 		
@@ -125,6 +132,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
       auto.destruir();
       obs.destruir();
+      fondo.destruir();
 	}
 
 	@Override
