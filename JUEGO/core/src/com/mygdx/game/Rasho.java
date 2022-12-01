@@ -11,23 +11,24 @@ import com.badlogic.gdx.math.Rectangle;
 
 import Superclases.AutoProtagonista;
 
+//Clase Rasho, uno de los personajes seleccionables para jugar, este se mueve más rápido, tiene menor resistencia y una imagen personalizada
 public class Rasho extends AutoProtagonista{		
-	   @Override
-	   	public void crearCarroRapido() {
-		   	vidas = 5;
-			velx = 400;
-			puntos = 0;
-			herido = false;
-			tiempoHeridoMax = 50;
-	   		imagen = new Texture(Gdx.files.internal("images/rayo.png"));
-			spr = new Sprite(imagen);
-			spr.setCenter(64, 185);
-	   	}
+		@Override
+		public void setVidas() {
+			vidas = 5;
+		}
 
 
 		@Override
-		public void crearCarroLento() {
-			// TODO Auto-generated method stub
-			
+		public void setVelx() {
+			velx = 400;
+		}
+
+
+		@Override
+		public void setSprite() {
+			imagen = new Texture(Gdx.files.internal("images/rayo.png"));
+			spr = new Sprite(imagen);
+			spr.setCenter(64, 185);		
 		}
 }

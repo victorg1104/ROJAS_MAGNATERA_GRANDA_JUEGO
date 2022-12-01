@@ -15,7 +15,7 @@ import com.mygdx.game.Fondo;
 import com.mygdx.game.GameRasho;
 import com.mygdx.game.MusicaFondo;
 
-
+//Clase MainMenu, implementa la interfaz Screen y corresponde a la pantalla que se muestra al iniciar la ejecución del juego
 public class MainMenuScreen implements Screen {
 
 	final GameRasho game;
@@ -24,17 +24,18 @@ public class MainMenuScreen implements Screen {
 	private Fondo fondo;
 	private MusicaFondo musicaFondo;
 
+	//Constructor de atributos de la clase, reciber por parámetros la instancia de GameRasho
 	public MainMenuScreen(final GameRasho game) {
 		this.game = game;
         this.batch = game.getBatch();
         
-        fondo = Fondo.crearFondo("images/imagenMenu.png", game.getFont());
+        fondo = Fondo.crearFondo("images/imagenMenu.png", game.getFont()); //Crea fondo personalizado
         
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 		musicaFondo = new MusicaFondo();
 		
-		musicaFondo.setArchivoMusica("sounds/cancionCars.mp3");
+		musicaFondo.setArchivoMusica("sounds/cancionCars.mp3"); //Asigna música de background
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class MainMenuScreen implements Screen {
 		batch.end();
 
 		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			dispose();
+			dispose(); //En caso de que se toque la pantalla con el mouse o se presione alguna tecla, se da inicio al juego
 			game.setScreen(new GameScreen(game, musicaFondo));
 		}
 	}

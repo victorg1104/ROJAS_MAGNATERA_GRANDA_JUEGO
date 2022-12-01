@@ -13,12 +13,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.Fondo;
 import com.mygdx.game.GameRasho;
 
+//Clase GameOver, implementa la interfaz Screen y es la pantalla de fin de juego
 public class GameOverScreen implements Screen {
 	private final GameRasho game;
 	private SpriteBatch batch;	   
 	private OrthographicCamera camera;
 	private Fondo fondo;
-
+	
+	//Constructor de atributos de clase
 	public GameOverScreen(final GameRasho game) {
 		this.game = game;
         this.batch = game.getBatch();
@@ -26,7 +28,7 @@ public class GameOverScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 		
-		fondo = Fondo.crearFondo("images/imagenGameOver.png", game.getFont());
+		fondo = Fondo.crearFondo("images/imagenGameOver.png", game.getFont()); //Se crea fondo personalizado
 	}
 
 	@Override
@@ -35,16 +37,14 @@ public class GameOverScreen implements Screen {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
+		//Se imprime por pantalla mensaje de game over
 		batch.begin();
 		batch.draw(fondo.getImagenFondo(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		fondo.getFuente().draw(batch, "Presiona enter para jugar de nuevo", 140, 50);
 		
-		
-		//musicaFondo.play();
-		
 		batch.end();
 
-		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) { //En caso de que se presione la tecla Enter, se comienza de nuevo el juego
 			dispose();
 			game.setScreen(new GameScreen(game));
 		}

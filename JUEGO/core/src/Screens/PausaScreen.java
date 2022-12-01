@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.GameRasho;
 
-
+//Clase de pantalla de pausa, en caso de que el juego se coloque en pausa
 public class PausaScreen implements Screen {
 
 	private final GameRasho game;

@@ -27,56 +27,57 @@ public class GameScreen implements Screen {
 	private AutoProtagonista auto;
 	private DirectorObjetos obs;
 	private Fondo fondo;
-	private int tipo;	   
-	//boolean activo = true;
+	private int tipo;
 
+	//Constructor para los atributos de clase, recibe por parámetro solo la instancia GameRasho
 	public GameScreen(final GameRasho game) {
 		this.game = game;
         this.batch = game.getBatch();
         
-        fondo = Fondo.crearFondo("images/pista.png", game.getFont());
+        fondo = Fondo.crearFondo("images/pista.png", game.getFont()); //Se crea fondo personalizado para la Screen
         
-	      // camera
 	     camera = new OrthographicCamera();
 	     camera.setToOrtho(false, 800, 480);
 	     batch = new SpriteBatch();
 	     
 	     tipo = MathUtils.random(1,2);
 	     
+	     //Creación de personajes principales
 	     if (tipo == 1) {
 	    	 auto = new Rasho();
-	    	 auto.crearCarroRapido();
+	    	 auto.crearCarro();
 	     }
 	     else {
 	    	 auto = new Hudson();
-	    	 auto.crearCarroLento();
+	    	 auto.crearCarro();
 	     }
-	      // creacion de la lluvia
+	      // Creación del director de creación de objetos
 	     obs = new DirectorObjetos();
 	}
 	
+	//Constructor para los atributos de clase, recibe por parámetro la instancia GameRasho y musicaFondo, en caso que el juego comience desde la pantalla de inicio 
 	public GameScreen(final GameRasho game, MusicaFondo musicaFondo) {
 		this.game = game;
         this.batch = game.getBatch();
          
         fondo = Fondo.crearFondo("images/pista.png", game.getFont());
         
-	      // camera
 	    camera = new OrthographicCamera();
 	    camera.setToOrtho(false, 800, 480);
 	    batch = new SpriteBatch();
 	    
 	    tipo = MathUtils.random(1,2);
-
+	    
+	  //Creación de personajes principales
 	    if (tipo == 1) {
 	    	auto = new Rasho();
-	    	auto.crearCarroRapido();
+	    	auto.crearCarro();
 	    }
 	    else {
 	    	auto = new Hudson();
-	    	auto.crearCarroLento();
+	    	auto.crearCarro();
 	    }
-	      // creacion de la lluvia
+	 // Creación del director de creación de objetos
 	    obs = new DirectorObjetos(musicaFondo);
 	}
 
@@ -96,14 +97,14 @@ public class GameScreen implements Screen {
 		fondo.getFuente().draw(batch, String.valueOf(game.getHigherScore()), 740, 475);
 		
 		if (!auto.estaHerido()) {
-			// movimiento del tarro desde teclado
+			// movimiento del auto desde teclado
 	        auto.actualizarPorTeclado();        
-			// caida de la lluvia 
+			// movimiento de objetos
 	       if (!obs.actualizarMovimiento(auto)) {
-	    	  //actualizar HigherScore
+	    	  //actualizar HigherScore en caso de Game Over
 	    	  if (game.getHigherScore()<auto.getPuntos())
 	    		  game.setHigherScore(auto.getPuntos());  
-	    	  //ir a la ventana de finde juego y destruir la actual
+	    	  //ir a la ventana de Game Over y destruir la actual
 	    	  dispose();
 	    	  game.setScreen(new GameOverScreen(game));
 	       }
@@ -117,7 +118,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-	  // continuar con sonido de lluvia
+	  // continuar con música background
 	  obs.continuar();
 	}
 

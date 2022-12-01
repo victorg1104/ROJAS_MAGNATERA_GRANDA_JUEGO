@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import Interfaces.BuilderObjetos;
 
+//Clase Objeto, define una estructura para todos los objetos, además implementa la interfaz BuilderObjetos
 public abstract class Objeto implements BuilderObjetos{
 	protected int tipo;
 	protected int posX;
@@ -19,8 +20,9 @@ public abstract class Objeto implements BuilderObjetos{
 	protected Sprite spr;
 	protected Sound sonido;
 	
-	public abstract void setAssets();
-	public abstract boolean accionar(AutoProtagonista carro);
+	//Métodos abstractos, dependen de cada subclase
+	public abstract void setAssets(); //Carga los assets predefinidos
+	public abstract void accionar(AutoProtagonista carro); //Realiza una acción predeterminada en caso de colisión
 	
 	public int getTipo() {
 		return tipo;
@@ -31,7 +33,7 @@ public abstract class Objeto implements BuilderObjetos{
 	}
 	
 	public Rectangle getRectangle() {
-		return spr.getBoundingRectangle();
+		return spr.getBoundingRectangle(); //Retorna el rectangle que utiliza el sprite
 	}
 	
 	public void dibujar(SpriteBatch batch) {

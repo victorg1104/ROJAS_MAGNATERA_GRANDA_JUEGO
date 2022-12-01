@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import Screens.MainMenuScreen;
 
+//Clase que extiende de Game, controla los aspectos del juego (batch, fuente, score)
 	public class GameRasho extends Game {
 
 		private SpriteBatch batch;
