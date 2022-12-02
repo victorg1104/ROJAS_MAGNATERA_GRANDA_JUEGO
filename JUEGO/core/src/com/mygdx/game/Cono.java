@@ -11,6 +11,10 @@ import Superclases.Objeto;
 /*Clase "cono", obstáculo a superar, aplica "daño" al personaje principal en caso de colisión*/
 
 public class Cono extends Objeto{
+	public Cono(int tipo, int posY, int daño, int premio) {
+		super(tipo, posY, daño, premio);
+	}
+
 	@Override
 	public void accionar(AutoProtagonista carro) {
 		sonido.play(0.2f); //Se reproduce sonido en caso de choque

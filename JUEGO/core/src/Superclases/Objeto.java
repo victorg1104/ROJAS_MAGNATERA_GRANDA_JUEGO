@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import Interfaces.BuilderObjetos;
 
 //Clase Objeto, define una estructura para todos los objetos, además implementa la interfaz BuilderObjetos
-public abstract class Objeto implements BuilderObjetos{
+public abstract class Objeto{
 	protected int tipo;
 	protected int posX;
 	protected int posY;
@@ -19,6 +19,15 @@ public abstract class Objeto implements BuilderObjetos{
 	protected Texture imagen;
 	protected Sprite spr;
 	protected Sound sonido;
+	
+	public Objeto(int tipo, int posY, int daño, int premio) {
+		this.tipo = tipo;
+		posX = 800;
+		this.posY = posY;
+		this.daño = daño;
+		this.premio = premio;
+		setAssets();
+	}
 	
 	//Métodos abstractos, dependen de cada subclase
 	public abstract void setAssets(); //Carga los assets predefinidos
@@ -43,27 +52,6 @@ public abstract class Objeto implements BuilderObjetos{
 	public void actualizarMovimiento() {
 		posX -= 400 * Gdx.graphics.getDeltaTime();;
 		spr.setCenter(posX, posY);	
-	}
-	
-	@Override
-	public void setDaño(int daño) {
-		this.daño = daño;
-	}
-	
-	@Override
-	public void setPremio(int premio) {
-		this.premio = premio;
-	}
-	
-	@Override
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
-	}
-	
-	@Override
-	public void setPosicion(int posY) {
-		posX = 800;
-		this.posY = posY;
 	}
 	
 	public void destruirObjeto() {

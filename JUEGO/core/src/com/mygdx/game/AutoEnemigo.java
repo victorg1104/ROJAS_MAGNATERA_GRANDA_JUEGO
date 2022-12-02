@@ -11,6 +11,10 @@ import Superclases.Objeto;
  * obstáculo a superar, hace "daño" en caso de colisionar con él*/
 
 public class AutoEnemigo extends Objeto{
+	public AutoEnemigo(int tipo, int posY, int daño, int premio) {
+		super(tipo, posY, daño, premio);
+	}
+
 	@Override
 	public void accionar(AutoProtagonista carro) {
 		sonido.play(0.2f); //Se reproduce sonido en caso de choque

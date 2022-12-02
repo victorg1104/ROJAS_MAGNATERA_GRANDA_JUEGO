@@ -11,6 +11,10 @@ import Superclases.Objeto;
 /*Clase copa, objeto a recolectar durante el juego, en caso de colisión, suma puntaje y premia al jugador*/
 
 public class Copa extends Objeto{
+	public Copa(int tipo, int posY, int daño, int premio) {
+		super(tipo, posY, daño, premio);
+	}
+
 	@Override
 	public void accionar(AutoProtagonista carro) {
 		sonido.play(0.2f); //Reproduce sonido en caso de premio

@@ -42,14 +42,19 @@ public class GameScreen implements Screen {
 	  //Creación de personajes principales
 	    if (tipo == 1) {
 	    	auto = new Rasho();
-	    	auto.crearCarro(tipo);
+	    	auto.crearCarro();
+	    	auto.setTipo(tipo);
+	    	auto.setMovible();
 	    }
 	    else {
 	    	auto = new Hudson();
-	    	auto.crearCarro(tipo);
+	    	auto.crearCarro();
+	    	auto.setTipo(tipo);
+	    	auto.setMovible();
 	    }
 	 // Creación del director de creación de objetos
 	    obs = new DirectorObjetos(musicaFondo);
+	    obs.crearObjetos();
 	}
 
 	@Override
@@ -68,10 +73,8 @@ public class GameScreen implements Screen {
 		fondo.getFuente().draw(batch, String.valueOf(game.getHigherScore()), 740, 475);
 		
 		if (!auto.estaHerido()) {
-			// movimiento del auto desde teclado
-	        auto.actualizarPorTeclado();        
 			// movimiento de objetos
-	       if (!obs.actualizarMovimiento(auto)) {
+	       if (!auto.actualizarMovimiento(obs)) {
 	    	  //actualizar HigherScore en caso de Game Over
 	    	  if (game.getHigherScore()<auto.getPuntos())
 	    		  game.setHigherScore(auto.getPuntos());  

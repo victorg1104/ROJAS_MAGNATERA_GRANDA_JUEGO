@@ -33,7 +33,7 @@ public abstract class AutoProtagonista{
 	public abstract void setVidas();
 	public abstract void setSprite();
 		
-	public void crearCarro(int tipo) { //Template Method
+	public void crearCarro() { //Template Method
 		//Funciones abstractas, dependientes de cada subclase
 		setVidas();
 		setSprite();
@@ -43,11 +43,15 @@ public abstract class AutoProtagonista{
 		setGirar();
 		setParpadear();
 		setTiempoHeridoMax();
-		setTipo(tipo);
 	}
 
 	public void setTipo(int tipo){
 		this.tipo = tipo;
+	}
+	
+	public void setMovible() {
+		if (tipo == 1) movible = (Rasho) this;
+		else movible = (Hudson) this;
 	}
 	
 	public void setPuntos() {
@@ -157,19 +161,11 @@ public abstract class AutoProtagonista{
    	}
    	
    	public boolean actualizarMovimiento(DirectorObjetos obs) {
-   		if (!estaHerido()) {
-			// movimiento del auto desde teclado
-	        actualizarPorTeclado();        
-			// verificación de choque entre objetos
-	        if (!obs.actualizarMovimiento(this)) return false;
-		}
+   		// movimiento del auto desde teclado
+	     movible.actualizarPorTeclado();        
+		// verificación de choque entre objetos
+	     if (!obs.actualizarMovimiento(this)) return false;
+		
    		return true; //Se retorna true en caso de que el juego no se haya terminado
    	}
-	     
-	public void actualizarPorTeclado() {
-		if (tipo == 1) movible = (Rasho) this;
-		else movible = (Hudson) this;
-		movible.actualizarPorTeclado();	   
-	}
-
 }

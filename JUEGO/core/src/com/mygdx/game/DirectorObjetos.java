@@ -1,19 +1,14 @@
 package com.mygdx.game;
 
-import java.util.Arrays;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import Builders.BuilderAutoEnemigo;
+import Builders.BuilderCono;
+import Builders.BuilderCopa;
+import Interfaces.BuilderObjetos;
 import Superclases.AutoProtagonista;
 import Superclases.Objeto;
 
@@ -23,31 +18,19 @@ public class DirectorObjetos {
 	private Array<Objeto> objetos; //Array que guarda los objetos creados
     private long lastDropTime; // Última vez que se generó un objeto
     private MusicaFondo musicaFondo; // Instancia de MusicaFondo, controla las operaciones del background musical
-	
-    //Constructor para los atributos de la clase sin parámetros
-	public DirectorObjetos() {
-		musicaFondo = new MusicaFondo();
 		
-		musicaFondo.setArchivoMusica("sounds/cancionCars.mp3");
-		
-		objetos = new Array<Objeto>();
-		crearObjeto();
-	     // se pone play a la música de background
-	    musicaFondo.iniciarReproduccion();
-	}
-	
 	//Constructor para los atributos de la clase recibiendo por parámetro la música de fondo a reproducir
 	public DirectorObjetos(MusicaFondo musicaFondo) {
 		this.musicaFondo = musicaFondo;
 
 		objetos = new Array<Objeto>();
-		crearObjeto();
+		//crearObjeto();
 	     // start the playback of the background music immediately
 	    musicaFondo.iniciarReproduccion();
 	}
 
 	//Función que crea objetos en posiciones aleatorias
-	private void crearObjeto() {
+	public void crearObjetos() {
 		  int posiciones [] = {30,83,156,229,302,375}; /*Arreglo de posiciones posibles de spawn de objetos, 
 		  												para dar mayor orden en pantalla*/
 		  Objeto obj;
@@ -56,57 +39,54 @@ public class DirectorObjetos {
 		  
 		  //Probabilidades de generación de cada objeto según el valor obtenido por la variable auxiliar
 	      if (aux < 9 && aux > 4) {
-	    	  obj = crearCono(posiciones); //Se crea objeto respectivo
+	    	  BuilderCono builder = new BuilderCono();
+	    	  crearCono(builder, posiciones); //Se crea objeto respectivo
+	    	  obj = builder.getCono();
 	    	  objetos.add(obj); //Se añade al arreglo de objetos
 	      }
 	      else if(aux <= 4) {
-	    	  obj = crearAutoMalo(posiciones);//Se crea objeto respectivo
-	    	  objetos.add(obj);//Se añade al arreglo de objetos
+	    	  BuilderAutoEnemigo builder = new BuilderAutoEnemigo();
+	    	  crearAutoMalo(builder, posiciones); //Se crea objeto respectivo
+	    	  obj = builder.getAutoEnemigo();
+	    	  objetos.add(obj); //Se añade al arreglo de objetos
 	      }
 	      else {
-	    	  obj = crearCopa(posiciones);//Se crea objeto respectivo
-	    	  objetos.add(obj);//Se añade al arreglo de objetos
+	    	  BuilderCopa builder = new BuilderCopa();
+	    	  crearCopa(builder, posiciones); //Se crea objeto respectivo
+	    	  obj = builder.getCopa();
+	    	  objetos.add(obj); //Se añade al arreglo de objetos
 	      }
 	      lastDropTime = TimeUtils.nanoTime(); //Se guarda instante en el cual se generó el último objeto para evitar sobrecarga en pantalla
 	   }
 	
 	//Función que crea y setea un objeto de tipo Cono
-	public Objeto crearCono(int [] posiciones) {
-	  Objeto obj = new Cono();
-  	  obj.setTipo(1);
-  	  obj.setPosicion(posiciones[MathUtils.random(5)]);
-  	  obj.setAssets();
-  	  obj.setDaño(1);
-
-  	  return obj;
+	public void crearCono(BuilderObjetos builder, int [] posiciones) {
+	  builder.setTipo(1);
+	  builder.setPosicion(posiciones[MathUtils.random(5)]);
+	  builder.setDaño(1);
+	  builder.setPremio(0);
 	}
 	
 	//Función que crea y setea un objeto de tipo AutoEnemigo
-	public Objeto crearAutoMalo(int [] posiciones) {
-	  Objeto obj = new AutoEnemigo();
-  	  obj.setTipo(2);
-  	  obj.setPosicion(posiciones[MathUtils.random(5)]);
-  	  obj.setAssets();
-  	  obj.setDaño(2);
-  
-  	  return obj;
+	public void crearAutoMalo(BuilderObjetos builder, int [] posiciones) {
+	  builder.setTipo(2);
+	  builder.setPosicion(posiciones[MathUtils.random(5)]);
+	  builder.setDaño(2);
+	  builder.setPremio(0);
 	}
 	
 	//Función que crea y setea un objeto de tipo Copa
-	public Objeto crearCopa(int [] posiciones) {
-	 Objeto obj = new Copa();
-   	 obj.setTipo(3);
-   	 obj.setPosicion(posiciones[MathUtils.random(5)]);
-   	 obj.setAssets();
-   	 obj.setPremio(10);
-
-   	 return obj;
+	public void crearCopa(BuilderObjetos builder, int [] posiciones) {
+      builder.setTipo(3);
+      builder.setPosicion(posiciones[MathUtils.random(5)]);
+      builder.setPremio(10);
+      builder.setDaño(0);
 	}
    
 	//Función que se encarga de actualizar el movimiento de cada objeto en pantalla
    public boolean actualizarMovimiento(AutoProtagonista carro) { 
 	   // generar gotas de lluvia 
-	   if (TimeUtils.nanoTime() - lastDropTime > 200000000) crearObjeto(); /*En caso de que hayan pasado 200000000 nanosegundos desde la última creación de algún objet
+	   if (TimeUtils.nanoTime() - lastDropTime > 200000000) crearObjetos(); /*En caso de que hayan pasado 200000000 nanosegundos desde la última creación de algún objet
 	   																		, crear nuevo objeto*/
 	   for (int i=0; i < objetos.size; i++ ) {
 		  Objeto obj = objetos.get(i);	//Se recibe cada objeto y se actualiza su movimiento por separado
