@@ -25,7 +25,7 @@ public class Hudson extends AutoProtagonista implements Movible{
 		}
 
 		@Override
-		public void actualizarPorTeclado() {
+		public void actualizarPorTeclado() { //En caso de recibir señal desde teclado, mover abajo o arriba velocidad de 200 pixeles/s
 			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) spr.setY(spr.getY() - 200 * Gdx.graphics.getDeltaTime());
 			if(Gdx.input.isKeyPressed(Input.Keys.UP)) spr.setY(spr.getY() + 200 * Gdx.graphics.getDeltaTime());
 			// que no se salga de los bordes arriba y abajo

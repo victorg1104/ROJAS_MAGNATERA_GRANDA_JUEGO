@@ -4,6 +4,7 @@ import com.mygdx.game.AutoEnemigo;
 
 import Interfaces.BuilderObjetos;
 
+//Builder de objetos de tipo AutoEnemigo, recibe cada atributo por separado, crea y retorna un objeto de la clase AutoEnemigo
 public class BuilderAutoEnemigo implements BuilderObjetos{
 	private int tipo;
 	private int posY;

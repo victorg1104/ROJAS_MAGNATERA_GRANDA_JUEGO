@@ -14,7 +14,7 @@ import com.mygdx.game.Rasho;
 import Interfaces.Movible;
 import Screens.GameOverScreen;
 
-//Clase abstracta que implementa la interfaz movible, es a su vez la clase que define un Template para las subclases Hudson y Rasho
+//Clase abstracta que define un Template para las subclases Hudson y Rasho
 public abstract class AutoProtagonista{
 	protected Sprite spr;
 	protected Texture imagen;
@@ -161,9 +161,9 @@ public abstract class AutoProtagonista{
    	}
    	
    	public boolean actualizarMovimiento(DirectorObjetos obs) {
-   		// movimiento del auto desde teclado
+   		// movimiento del auto desde teclado, utiliza una instancia de la interfaz movible
 	     movible.actualizarPorTeclado();        
-		// verificación de choque entre objetos
+		// verificación de game over
 	     if (!obs.actualizarMovimiento(this)) return false;
 		
    		return true; //Se retorna true en caso de que el juego no se haya terminado

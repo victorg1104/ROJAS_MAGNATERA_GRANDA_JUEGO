@@ -24,8 +24,7 @@ public class DirectorObjetos {
 		this.musicaFondo = musicaFondo;
 
 		objetos = new Array<Objeto>();
-		//crearObjeto();
-	     // start the playback of the background music immediately
+	     // comienza a reproducir la música de fondo
 	    musicaFondo.iniciarReproduccion();
 	}
 
@@ -40,26 +39,26 @@ public class DirectorObjetos {
 		  //Probabilidades de generación de cada objeto según el valor obtenido por la variable auxiliar
 	      if (aux < 9 && aux > 4) {
 	    	  BuilderCono builder = new BuilderCono();
-	    	  crearCono(builder, posiciones); //Se crea objeto respectivo
-	    	  obj = builder.getCono();
+	    	  crearCono(builder, posiciones); //Se crea objeto Cono
+	    	  obj = builder.getCono();//Se le solicita al builder
 	    	  objetos.add(obj); //Se añade al arreglo de objetos
 	      }
 	      else if(aux <= 4) {
 	    	  BuilderAutoEnemigo builder = new BuilderAutoEnemigo();
-	    	  crearAutoMalo(builder, posiciones); //Se crea objeto respectivo
-	    	  obj = builder.getAutoEnemigo();
+	    	  crearAutoMalo(builder, posiciones); //Se crea objeto AutoEnemigo
+	    	  obj = builder.getAutoEnemigo();//Se le solicita al builder
 	    	  objetos.add(obj); //Se añade al arreglo de objetos
 	      }
 	      else {
 	    	  BuilderCopa builder = new BuilderCopa();
-	    	  crearCopa(builder, posiciones); //Se crea objeto respectivo
-	    	  obj = builder.getCopa();
+	    	  crearCopa(builder, posiciones); //Se crea objeto Copa
+	    	  obj = builder.getCopa(); //Se le solicita al builder
 	    	  objetos.add(obj); //Se añade al arreglo de objetos
 	      }
 	      lastDropTime = TimeUtils.nanoTime(); //Se guarda instante en el cual se generó el último objeto para evitar sobrecarga en pantalla
 	   }
 	
-	//Función que crea y setea un objeto de tipo Cono
+	//Función que setea un objeto de tipo Cono
 	public void crearCono(BuilderObjetos builder, int [] posiciones) {
 	  builder.setTipo(1);
 	  builder.setPosicion(posiciones[MathUtils.random(5)]);
@@ -67,7 +66,7 @@ public class DirectorObjetos {
 	  builder.setPremio(0);
 	}
 	
-	//Función que crea y setea un objeto de tipo AutoEnemigo
+	//Función que setea un objeto de tipo AutoEnemigo
 	public void crearAutoMalo(BuilderObjetos builder, int [] posiciones) {
 	  builder.setTipo(2);
 	  builder.setPosicion(posiciones[MathUtils.random(5)]);
@@ -75,7 +74,7 @@ public class DirectorObjetos {
 	  builder.setPremio(0);
 	}
 	
-	//Función que crea y setea un objeto de tipo Copa
+	//Función que setea un objeto de tipo Copa
 	public void crearCopa(BuilderObjetos builder, int [] posiciones) {
       builder.setTipo(3);
       builder.setPosicion(posiciones[MathUtils.random(5)]);
@@ -91,14 +90,14 @@ public class DirectorObjetos {
 	   for (int i=0; i < objetos.size; i++ ) {
 		  Objeto obj = objetos.get(i);	//Se recibe cada objeto y se actualiza su movimiento por separado
 	      obj.actualizarMovimiento();
-	      //cae al suelo y se elimina
+	      
 	      if(obj.getPosX() + 70 < 0)
 	    	  objetos.removeIndex(i); //En caso de que salgan del límite de la pantalla, eliminar objeto
 	      
-	      if(obj.getRectangle().overlaps(carro.getArea())) { //Si el objeto choca con el auto
+	      if(obj.getRectangle().overlaps(carro.getArea())) { //Si el objeto choca con el auto se procede a accionar la colisión
 	    	obj.accionar(carro);
 	    	objetos.removeIndex(i);
-	    	if (carro.getVidas() <= 0) {
+	    	if (carro.getVidas() <= 0) { //En caso de quedarse sin vidas, se retorna false para dar la señal de game over
 	    		obj.destruirObjeto();
 	    		return false;
 	    	}

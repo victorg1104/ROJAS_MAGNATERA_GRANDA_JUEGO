@@ -8,7 +8,7 @@ import Superclases.AutoProtagonista;
 import Superclases.Objeto;
 
 /*Clase del objeto "auto enemigo" (auto rojo, verde, blanco en el juego)
- * obstáculo a superar, hace "daño" en caso de colisionar con él*/
+ * obstáculo a superar, hace "daño" en caso de colisionar con él y genera una animación personalizada*/
 
 public class AutoEnemigo extends Objeto{
 	public AutoEnemigo(int tipo, int posY, int daño, int premio) {
@@ -18,7 +18,7 @@ public class AutoEnemigo extends Objeto{
 	@Override
 	public void accionar(AutoProtagonista carro) {
 		sonido.play(0.2f); //Se reproduce sonido en caso de choque
-		carro.dañarParpadear(daño); //Se le aplica daño correspondiente al auto prinicipal del juego
+		carro.dañarParpadear(daño); //Se le aplica daño correspondiente al auto prinicipal del juego y genera animación de parpadeo
 	}
 
 	@Override

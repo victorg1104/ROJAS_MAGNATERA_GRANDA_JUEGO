@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Superclases.AutoProtagonista;
 import Superclases.Objeto;
 
-/*Clase "cono", obstáculo a superar, aplica "daño" al personaje principal en caso de colisión*/
+/*Clase "cono", obstáculo a superar, aplica "daño" al personaje principal en caso de colisión* y genera animación personalizada*/
 
 public class Cono extends Objeto{
 	public Cono(int tipo, int posY, int daño, int premio) {
@@ -18,7 +18,7 @@ public class Cono extends Objeto{
 	@Override
 	public void accionar(AutoProtagonista carro) {
 		sonido.play(0.2f); //Se reproduce sonido en caso de choque
-		carro.dañarGirar(daño); //Se le aplica daño correspondiente al auto principal en caso de colisión
+		carro.dañarGirar(daño); //Se le aplica daño correspondiente al auto principal en caso de colisión y produce animación de giro
 	}
 
 	@Override
